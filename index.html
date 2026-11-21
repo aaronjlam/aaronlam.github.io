@@ -1,1 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaron Lam | IT Engineer & Cybersecurity</title>
+<meta name="description" content="Aaron Lam: IT Engineer pivoting to cybersecurity. Experience in identity and access management, vulnerability remediation and endpoint security.">
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #111820;
+    --panel-2: #151e28;
+    --line: #1f2a37;
+    --text: #d6e2ee;
+    --muted: #7d8ea3;
+    --green: #39ff88;
+    --cyan: #5ad8ff;
+    --amber: #ffb84d;
+    --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(57, 255, 136, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57, 255, 136, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    min-height: 100vh;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { color: var(--green); text-decoration: underline; }
+  code, .mono { font-family: var(--mono); }
 
+  /* Terminal window hero */
+  .hero-wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 24px 0;
+  }
+  .terminal {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .dot.r { background: #ff5f57; }
+  .dot.y { background: #febc2e; }
+  .dot.g { background: #28c840; }
+  .terminal-bar .title { margin-left: 10px; }
+  .terminal-body {
+    padding: 22px 24px 26px;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+  }
+  .prompt { color: var(--green); }
+  .cmd { color: var(--text); }
+  .out { color: var(--muted); margin: 6px 0 0; }
+  .out .key { color: var(--amber); }
+  .name {
+    margin: 18px 0 4px;
+    font-family: var(--sans);
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .tagline { color: var(--cyan); margin: 0 0 6px; }
+  .links a { margin-right: 14px; }
+  .cursor {
+    display: inline-block;
+    width: 9px;
+    height: 1.1em;
+    background: var(--green);
+    vertical-align: text-bottom;
+    animation: blink 1.1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+  }
+  section { margin-top: 44px; }
+  h2 {
+    font-family: var(--mono);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--green);
+    margin: 0 0 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--line);
+  }
+  h2::before { content: "# "; color: var(--muted); }
+  h3 { margin: 0; font-size: 1.05rem; color: #fff; font-weight: 600; }
+
+  .role {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px 16px;
+    margin-bottom: 4px;
+  }
+  .date {
+    font-family: var(--mono);
+    color: var(--amber);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .company { color: var(--cyan); font-family: var(--mono); font-size: 0.9rem; margin-bottom: 6px; }
+  .job { margin-bottom: 26px; padding: 18px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+  ul { margin: 8px 0 0; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--green); }
+  .job p { margin: 6px 0 0; color: var(--muted); }
+  .job .role a { font-family: var(--mono); font-size: 0.85rem; }
+
+  .summary .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--green);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .summary p { margin: 0 0 14px; }
+  .summary p:last-child { margin-bottom: 0; }
+  .seeking {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--green);
+    margin-top: 16px !important;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .skill-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .skill-card strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.92rem;
+    color: #fff;
+  }
+  .skill-card strong::before { content: "> "; color: var(--green); font-family: var(--mono); }
+  .skill-card span { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); }
+
+  .certs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .cert {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .cert strong { display: block; color: #fff; }
+  .cert .issuer { color: var(--cyan); font-family: var(--mono); font-size: 0.85rem; }
+  .cert .when { color: var(--amber); font-family: var(--mono); font-size: 0.8rem; }
+
+  .achievement {
+    margin-top: 12px;
+    background: rgba(57, 255, 136, 0.06);
+    border: 1px solid rgba(57, 255, 136, 0.25);
+    padding: 10px 14px;
+    border-radius: 6px;
+    color: var(--text);
+  }
+  .achievement strong { color: var(--green); }
+
+  .edu-item {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+  }
+  .edu-item .school { font-weight: 600; color: #fff; }
+  .edu-item .detail { color: var(--muted); font-size: 0.92rem; margin-top: 4px; }
+
+  .competencies {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .competencies li {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .competencies li::before { content: "$ "; color: var(--green); }
+
+  footer {
+    font-family: var(--mono);
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    padding: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 560px) {
+    .hero-wrap { padding: 32px 16px 0; }
+    main { padding: 0 16px 48px; }
+    .terminal-body { padding: 18px 16px 22px; }
+    .role { flex-direction: column; }
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    .terminal { box-shadow: none; }
+    .job, .cert, .skill-card, .edu-item, .competencies li { background: #fff; }
+    h2, .prompt, .date, .company, .skill-card strong, .cert .when { color: #111; }
+    .cursor { display: none; }
+    section { break-inside: avoid; margin-top: 24px; }
+    footer { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-wrap">
+  <div class="terminal">
+    <div class="terminal-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="title">aaron@resume: ~</span>
+    </div>
+    <div class="terminal-body">
+      <div><span class="prompt">aaron@resume:~$</span> <span class="cmd">whoami</span></div>
+      <div class="name">Aaron Lam</div>
+      <div class="tagline">IT Engineer pivoting to Cybersecurity</div>
+      <div class="out">
+        <span class="key">status</span>: Open to IT Security Engineer, Information Security Analyst and GRC roles
+      </div>
+      <div class="links out">
+        <span class="key">linkedin</span>: <a href="https://linkedin.com/in/aaronlam443">linkedin.com/in/aaronlam443</a>
+      </div>
+      <div style="margin-top:14px;"><span class="prompt">aaron@resume:~$</span> <span class="cursor"></span></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="summary" id="summary">
+    <h2>career_summary</h2>
+    <div class="panel">
+      <p>IT Engineer with 10 years of operational and end user support experience, now pivoting to cybersecurity. Recognized for analytical problem-solving, proactive risk mitigation and cross-functional collaboration in fast-paced technical environments.</p>
+      <p>Skilled in applying security best practices to IT ecosystems, including access management, incident escalation and vulnerability remediation. Adept at strengthening system resilience, optimizing operational efficiency and aligning IT processes with cybersecurity standards and compliance frameworks.</p>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><strong>Identity & Access Management</strong><span>Active Directory, Microsoft MFA, Delinea PAM</span></div>
+      <div class="skill-card"><strong>Endpoint Security</strong><span>Exchange Online Protection, Trend Micro, Trellix</span></div>
+      <div class="skill-card"><strong>ITSM & Ticketing</strong><span>ServiceNow, BMC Remedy</span></div>
+      <div class="skill-card"><strong>Endpoint & Device Management</strong><span>MS Intune, Manage Ops Engine</span></div>
+      <div class="skill-card"><strong>Virtualization & Imaging</strong><span>VMware ESXi, Citrix VDI, Acronis, Hiren's BootCD</span></div>
+      <div class="skill-card"><strong>Security & Encryption</strong><span>BitLocker, McAfee</span></div>
+      <div class="skill-card"><strong>Remote Support</strong><span>Bomgar, Zoho Assist</span></div>
+      <div class="skill-card"><strong>Backup & Recovery</strong><span>Acronis, Veeam Backup & Replication</span></div>
+      <div class="skill-card"><strong>Monitoring & Logging</strong><span>Log Analytics</span></div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <h2>certifications</h2>
+    <div class="certs">
+      <div class="cert"><strong>CompTIA Security+</strong><span class="issuer">CompTIA</span><br><span class="when">Nov 2026</span></div>
+      <div class="cert"><strong>CompTIA A+ Certification</strong><span class="issuer">CompTIA</span><br><span class="when">Jul 2023 – Jul 2029</span></div>
+      <div class="cert"><strong>Cybersecurity Specialization</strong><span class="issuer">Google</span><br><span class="when">Jan 2025</span></div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2>experience</h2>
+
+    <div class="job">
+      <div class="role"><h3>Senior IT Engineer</h3><span class="date">Nov 2024 – Present</span></div>
+      <div class="company">Tata Consultancy Services Asia Pacific</div>
+      <ul>
+        <li><strong>Architected and deployed IT solutioning</strong> that met strict compliance and best practices of security standards, aligned with organizational policies while addressing customer needs through tailored implementations.</li>
+        <li><strong>Manage daily vulnerability remediation workflows</strong> within the Keep IT Secure 24 portal, swiftly mitigating critical infrastructure risks and configuration drifts.</li>
+        <li><strong>Collaborated cross-functionally with infrastructure and network teams</strong> to architect and support enterprise network services (DNS, DHCP, firewalls, VPNs, routers, switches), ensuring reliable connectivity for mission-critical operations.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="role"><h3>IT Engineer (Contract)</h3><span class="date">Aug 2023 – Nov 2024</span></div>
+      <div class="company">Olam International</div>
+      <ul>
+        <li>Conducted <strong>on-site technical analysis and incident troubleshooting</strong> across <strong>Windows systems, network and infrastructure components</strong>, delivering secure and stable IT solutions while minimizing operational risk and adhering to security best practices.</li>
+        <li>Collaborated closely with <strong>cross-functional infrastructure and security teams</strong> to <strong>identify, assess and remediate endpoint and system vulnerabilities</strong>, including planning and executing <strong>patch management</strong> activities in production environments.</li>
+      </ul>
+      <div class="achievement"><strong>Key Achievement:</strong> Designed and executed a <strong>phased recovery and remediation plan</strong> that restored endpoints and business operations during the <strong>2024 CrowdStrike outage</strong>, coordinating batch-based recovery until full-service restoration.</div>
+    </div>
+
+    <div class="job">
+      <div class="role"><h3>IT Helpdesk (Contract)</h3><span class="date">Nov 2019 – Aug 2023</span></div>
+      <div class="company">UOB</div>
+      <ul>
+        <li><strong>Administered and enforced access control policies</strong> across enterprise IT infrastructure, including user account provisioning, modification and deprovisioning within <strong>Active Directory environment</strong>.</li>
+        <li><strong>Deployed and configured Trend Micro Endpoint</strong> on end user devices.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="role"><h3>IT Helpdesk (Contract)</h3><span class="date">Jun 2017 – Nov 2019</span></div>
+      <div class="company">NCS</div>
+      <ul>
+        <li>Supported <strong>Identity and Access Management (IAM)</strong> operations, administered, modified and deprovisioned user accounts in accordance with organizational security policies and standards.</li>
+        <li><strong>Monitored security alerts</strong> and documented events, and promptly escalated suspected security threats to the support team.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="role"><h3>IT Helpdesk</h3><span class="date">Apr 2013 – May 2017</span></div>
+      <div class="company">IDS Sdn. Bhd. (Malaysia)</div>
+      <ul>
+        <li>Administered <strong>Role-Based Access Control (RBAC)</strong>, provisioned and maintained role-specific system access in accordance with least-privilege principles.</li>
+        <li>Performed <strong>24/7 continuous monitoring of alerts</strong>, identified anomalies and escalated potential incidents in line with established operation procedures.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>projects</h2>
+    <div class="job">
+      <div class="role"><h3>Pullball Maze</h3><a href="https://inertia-maze.vercel.app/">./open demo →</a></div>
+      <p>A web-based maze game where you roll a steel ball through walls to a hole, with three lives, crash penalties and optional save points.</p>
+    </div>
+    <div class="job">
+      <div class="role"><h3>Fuji Toner Scanner</h3><a href="https://tonercheck.vercel.app/">./open demo →</a></div>
+      <p>A mobile-friendly web app for tracking toner and other printer supplies by scanning or entering part numbers, with colour, compatible models, yield and notes, plus import and export.</p>
+    </div>
+    <div class="job">
+      <div class="role"><h3>Singapore Photo Spots</h3><a href="https://singapore-in-focus.vercel.app/">./open demo →</a></div>
+      <p>An interactive map of 69 photo locations across nine Singapore regions, showing live weather, local time and estimated crowd levels, with itinerary planning tools.</p>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>education</h2>
+    <div class="edu-item">
+      <div class="role"><span class="school">Singapore Institute of Management</span><span class="date">Jul 2025 – Nov 2025</span></div>
+      <div class="detail">Singapore · SCTP Cybersecurity: Professional Certificate in Network Security and Digital Forensics Programme</div>
+    </div>
+    <div class="edu-item">
+      <div class="role"><span class="school">University Tun Abdul Razak</span><span class="date">Aug 2009 – Aug 2012</span></div>
+      <div class="detail">Malaysia · Bachelor of Education (Language and Literature)</div>
+    </div>
+  </section>
+
+  <section id="competencies">
+    <h2>core_competencies</h2>
+    <ul class="competencies">
+      <li>analytical_thinking &amp; innovation</li>
+      <li>complex_problem_solving</li>
+      <li>critical_thinking &amp; analysis</li>
+      <li>technology_use, monitoring &amp; control</li>
+      <li>data &amp; digital_literacy</li>
+      <li>ethical &amp; moral_reasoning</li>
+      <li>communication &amp; teamwork</li>
+      <li>collaboration &amp; teamwork</li>
+      <li>resilience &amp; adaptability</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <span class="prompt">aaron@resume:~$</span> exit 0 &nbsp;·&nbsp; <a href="https://linkedin.com/in/aaronlam443">LinkedIn</a>
+</footer>
+
+</body>
+</html>
